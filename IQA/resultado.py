@@ -9,7 +9,7 @@ caminho = os.path.join(PATH, nome_arquivo)
 with open(caminho, 'r') as file:
     data = json.load(file)
 
-# Classificação do IQA em forma de lista
+# # classificação do IQA, utilizando as faixas de concentração mínima e máxima para cada poluente
 classificacoes_iqa = [
     (0, 50, "Qualidade BOA"),
     (51, 100, "Qualidade REGULAR"),
@@ -18,7 +18,7 @@ classificacoes_iqa = [
     (300, float('inf'), "Qualidade PÉSSIMA")
 ]
 
-# Função de classificação usando a lista
+# Função de classificação, utilizando o laço, para que ele verifique se a IQA está dentro das faixas de concentração
 def classificar_IQA(iqa):
     for faixa in classificacoes_iqa:
         if faixa[0] <= iqa <= faixa[1]:
@@ -30,7 +30,7 @@ def calcular_IQA(C, Cf, Ci, If, Ii):
     Ip = ((If - Ii) / (Cf - Ci)) * (C - Ci) + Ii
     return Ip
 
-# Faixas de concentração dos poluentes
+# Faixas de concentração dos poluentes, gerado pelo arquivo.json
 faixas_concentracao = {
     'SO2': [
         [0, 80], [81, 365], [366, 800], [801, 1600], [1600, 0]
@@ -65,7 +65,7 @@ for nome, dados in data.items():
     for faixa in faixas_concentracao[nome]:
         if faixa[0] <= media_valor <= faixa[1]:
             
-
+# resultado, substituindo as variáveis na equação para IQA
             calculo_ip = calcular_IQA(
                 media_valor, 
                 faixa[1], 
